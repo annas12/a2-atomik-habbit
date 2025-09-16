@@ -3,289 +3,375 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atomic Habits - Ringkasan Interaktif</title>
+    <title>Atomic Habits - Mobile App</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
-        /* Base Typography with Fluid Scaling */
         body { 
             font-family: 'Inter', sans-serif;
             font-size: clamp(0.875rem, 2.5vw, 1rem);
-            line-height: 1.6;
         }
         
-        h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
-        h2 { font-size: clamp(1.5rem, 6vw, 2.25rem); }
+        h1 { font-size: clamp(1.875rem, 6vw, 2.5rem); }
+        h2 { font-size: clamp(1.5rem, 5vw, 2rem); }
         h3 { font-size: clamp(1.125rem, 4vw, 1.5rem); }
         
-        .text-lg { font-size: clamp(1rem, 3vw, 1.125rem); }
-        .text-xl { font-size: clamp(1.125rem, 4vw, 1.25rem); }
-        .text-2xl { font-size: clamp(1.25rem, 5vw, 1.5rem); }
-        .text-3xl { font-size: clamp(1.5rem, 6vw, 1.875rem); }
-        .text-4xl { font-size: clamp(1.875rem, 7vw, 2.25rem); }
-        .text-5xl { font-size: clamp(2.25rem, 8vw, 3rem); }
+        .gradient-bg { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+        }
         
-        /* Mobile-First Responsive Design */
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .progress-bar { transition: width 0.5s ease; }
-        .quote-animation { animation: fadeInUp 1s ease-out; }
+        .gradient-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
         
-        /* Touch-Friendly Buttons */
+        .gradient-green {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .card-hover { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        .card-hover:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
         .btn-touch {
             min-height: 44px;
             min-width: 44px;
             padding: clamp(0.75rem, 3vw, 1rem) clamp(1rem, 4vw, 1.5rem);
-            font-size: clamp(0.875rem, 3vw, 1rem);
             border-radius: clamp(0.5rem, 2vw, 0.75rem);
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* Mobile Navigation */
         .nav-mobile {
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
+        
         .nav-mobile::-webkit-scrollbar { display: none; }
         
-        /* Responsive Grid System */
-        .grid-responsive {
-            display: grid;
-            gap: clamp(1rem, 4vw, 1.5rem);
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
         }
         
-        .grid-responsive-sm {
-            display: grid;
-            gap: clamp(0.75rem, 3vw, 1rem);
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
         }
         
-        /* Container Spacing */
-        .container-fluid {
-            padding-left: clamp(1rem, 5vw, 1.5rem);
-            padding-right: clamp(1rem, 5vw, 1.5rem);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
-        .section-spacing {
-            padding-top: clamp(2rem, 8vw, 3rem);
-            padding-bottom: clamp(2rem, 8vw, 3rem);
-        }
-        
-        /* Mobile Input Optimization */
-        .input-touch {
-            min-height: 48px;
-            font-size: 16px; /* Prevents zoom on iOS */
-            padding: clamp(0.75rem, 3vw, 1rem);
-            border-radius: clamp(0.5rem, 2vw, 0.75rem);
-        }
-        
-        /* Tablet Specific */
-        @media (min-width: 768px) and (max-width: 1024px) {
-            .tablet-cols-2 { grid-template-columns: repeat(2, 1fr); }
-            .tablet-cols-3 { grid-template-columns: repeat(3, 1fr); }
-        }
-        
-        /* Mobile Specific */
-        @media (max-width: 767px) {
-            .mobile-full { width: 100%; }
-            .mobile-stack { flex-direction: column; }
-            .mobile-center { text-align: center; }
-            .mobile-p-4 { padding: 1rem; }
-            .mobile-gap-4 { gap: 1rem; }
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Smooth Scrolling */
-        html { scroll-behavior: smooth; }
+        .progress-ring {
+            transition: stroke-dasharray 0.5s ease-in-out;
+        }
         
-        /* Better Touch Targets */
-        button, input, textarea, select {
-            touch-action: manipulation;
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <!-- Header -->
-
-<!-- Header: Hemat Space & Responsif -->
-<!-- Header: Hemat Space & Responsif -->
-<header class="gradient-bg text-white">
-  <style>
-    .section-spacing{padding-block:clamp(12px,2.5vw,24px)}
-    .title-tight{letter-spacing:-0.015em;line-height:1.15}
-    .quote-card{
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      background: rgba(255,255,255,.18);
-      border-radius: .75rem;
-      padding: clamp(8px,2vw,14px);
-    }
-    .quote-animation{animation: fadeIn .4s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-  </style>
-
-  <div class="section-spacing px-3 sm:px-4">
-    <div class="mx-auto max-w-screen-sm text-center">
-      <!-- Judul & Penulis sejajar -->
-      <div class="flex items-baseline justify-center space-x-2 flex-wrap">
-        <h1 class="font-bold title-tight text-[clamp(1.6rem,5.2vw,2.6rem)]">
-          📚 Atomic Habits
-        </h1>
-        <span class="italic text-[clamp(.9rem,2vw,1rem)] opacity-90">
-          oleh James Clear
-        </span>
-      </div>
-
-      <!-- Subjudul ringkas satu baris -->
-      <p class="mt-1 opacity-80 text-[clamp(.8rem,1.6vw,.95rem)]">
-        Ringkasan Cerdas, Mudah Dipahami, Siap Dipraktikkan
-      </p>
-
-      <!-- Random Quote -->
-      <div id="randomQuote" class="mt-3 quote-card quote-animation">
-        <p id="quoteText" class="italic text-[clamp(.9rem,2vw,1.05rem)] leading-relaxed"></p>
-      </div>
-    </div>
-  </div>
-</header>
-
-<script>
-  (function(){
-    const quotes = [
-      "Perubahan kecil yang konsisten menghasilkan hasil yang luar biasa.",
-      "Anda tidak naik ke level tujuan Anda. Anda turun ke level sistem Anda.",
-      "Setiap tindakan adalah suara untuk identitas yang ingin Anda bangun.",
-      "Kebiasaan adalah bunga majemuk dari perbaikan diri.",
-      "Fokus pada identitas yang ingin Anda miliki, bukan sekadar hasil.",
-      "Lingkungan adalah tangan tak terlihat yang membentuk perilaku.",
-      "Motivasi sering berlebih; desain lingkungan lebih penting."
-    ];
-    const q = quotes[Math.floor(Math.random()*quotes.length)];
-    const el = document.getElementById('quoteText');
-    if (el) el.textContent = q;
-  })();
-</script>
-
+    <header class="gradient-bg text-white sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <span class="text-xl">📚</span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold">Atomic Habits</h1>
+                        <p class="text-sm opacity-90">James Clear</p>
+                    </div>
+                </div>
+                <button onclick="toggleDarkMode()" class="btn-touch bg-white/20 hover:bg-white/30 rounded-full">
+                    <span id="darkModeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
 
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto container-fluid">
-            <div class="nav-mobile flex justify-start md:justify-center space-x-2 md:space-x-4 py-3 md:py-4">
-                <button onclick="showSection('home')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">🏠 <span class="hidden sm:inline">Beranda</span></button>
-                <button onclick="showSection('contents')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">📋 <span class="hidden sm:inline">Daftar Isi</span></button>
-                <button onclick="showSection('summary')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">📖 <span class="hidden sm:inline">Ringkasan</span></button>
-                <button onclick="showSection('action')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">✅ <span class="hidden sm:inline">Action Plan</span></button>
-                <button onclick="showSection('notes')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">📝 <span class="hidden sm:inline">Catatan</span></button>
+    <nav class="bg-white dark:bg-gray-800 shadow-sm sticky top-16 z-40 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="nav-mobile flex space-x-2 py-3">
+                <button onclick="showSection('home')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
+                    🏠 <span class="hidden sm:inline">Beranda</span>
+                </button>
+                <button onclick="showSection('contents')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
+                    📋 <span class="hidden sm:inline">Daftar Isi</span>
+                </button>
+                <button onclick="showSection('habits')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
+                    ⚡ <span class="hidden sm:inline">Habits</span>
+                </button>
+                <button onclick="showSection('tracker')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
+                    📊 <span class="hidden sm:inline">Tracker</span>
+                </button>
+                <button onclick="showSection('notes')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
+                    📝 <span class="hidden sm:inline">Catatan</span>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="container mx-auto container-fluid section-spacing">
+    <main class="container mx-auto px-4 py-6">
         <!-- Home Section -->
-        <section id="home" class="section">
-            <div class="text-center mb-12">
-                <h2 class="font-bold text-gray-800 mb-6">Selamat Datang di Ringkasan Atomic Habits</h2>
-                <div class="grid-responsive tablet-cols-3">
-                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover mobile-center">
-                        <div class="text-4xl mb-4">🎯</div>
-                        <h3 class="font-semibold mb-3">Kebiasaan Kecil</h3>
-                        <p class="text-gray-600">Perubahan kecil yang konsisten menghasilkan hasil luar biasa</p>
+        <section id="home" class="section fade-in">
+            <!-- Random Quote -->
+            <div id="quoteCard" class="gradient-card text-white p-6 rounded-2xl mb-8 slide-up">
+                <div class="flex items-start space-x-4">
+                    <div class="text-3xl">💡</div>
+                    <div>
+                        <p id="quoteText" class="text-lg font-medium mb-2 italic"></p>
+                        <p class="text-sm opacity-90">- James Clear</p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover mobile-center">
-                        <div class="text-4xl mb-4">🔄</div>
-                        <h3 class="font-semibold mb-3">4 Hukum Perilaku</h3>
-                        <p class="text-gray-600">Framework praktis untuk membangun kebiasaan baik</p>
+                </div>
+            </div>
+
+            <!-- Overview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover">
+                    <div class="gradient-green w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-white text-xl">🎯</span>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover mobile-center">
-                        <div class="text-4xl mb-4">🚀</div>
-                        <h3 class="font-semibold mb-3">Identitas Baru</h3>
-                        <p class="text-gray-600">Ubah identitas Anda, ubah hidup Anda</p>
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-2">1% Better</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Perbaikan kecil setiap hari menghasilkan perubahan luar biasa</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover">
+                    <div class="gradient-card w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-white text-xl">🔄</span>
                     </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-2">4 Laws</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Framework praktis untuk membangun kebiasaan baik</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover md:col-span-2 lg:col-span-1">
+                    <div class="gradient-bg w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-white text-xl">🚀</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Identity</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Fokus pada identitas, bukan hanya hasil</p>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-4">Progress Hari Ini</h3>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="relative w-16 h-16">
+                            <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+                                <path class="text-gray-200 dark:text-gray-700" stroke="currentColor" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+                                <path id="progressCircle" class="text-blue-500" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span id="progressPercent" class="text-sm font-semibold text-gray-800 dark:text-white">0%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Kebiasaan Selesai</p>
+                            <p id="habitCount" class="text-xl font-bold text-gray-800 dark:text-white">0/0</p>
+                        </div>
+                    </div>
+                    <button onclick="showSection('tracker')" class="btn-touch bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
+                        Lihat Detail
+                    </button>
                 </div>
             </div>
         </section>
 
         <!-- Contents Section -->
         <section id="contents" class="section hidden">
-            <h2 class="font-bold text-gray-800 mb-8 text-center">📋 Daftar Isi</h2>
-            <div class="grid-responsive-sm tablet-cols-2">
-                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(1)">
-                    <h3 class="font-semibold text-blue-600">Bab 1: Kekuatan Atomic Habits</h3>
-                    <p class="text-gray-600 text-sm mt-2">Mengapa perubahan kecil menghasilkan dampak besar</p>
+            <h2 class="font-bold text-gray-800 dark:text-white mb-6">📋 Daftar Isi</h2>
+            
+            <!-- Categories -->
+            <div class="space-y-6">
+                <!-- Fundamentals -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <span class="gradient-bg w-8 h-8 rounded-full flex items-center justify-center text-white text-sm mr-3">1</span>
+                        Fundamental
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('compound')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">The Power of Compound</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Kekuatan 1% improvement</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('identity')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">Identity-Based Habits</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Fokus pada siapa Anda</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(2)">
-                    <h3 class="font-semibold text-blue-600">Bab 2: 4 Hukum Perubahan Perilaku</h3>
-                    <p class="text-gray-600 text-sm mt-2">Framework untuk membangun kebiasaan yang bertahan</p>
+
+                <!-- 4 Laws -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <span class="gradient-card w-8 h-8 rounded-full flex items-center justify-center text-white text-sm mr-3">2</span>
+                        4 Hukum Perubahan Perilaku
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('obvious')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">Make it Obvious</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Buat kebiasaan terlihat jelas</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('attractive')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">Make it Attractive</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Buat kebiasaan menarik</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('easy')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">Make it Easy</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Buat kebiasaan mudah dilakukan</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('satisfying')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">Make it Satisfying</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Buat kebiasaan memuaskan</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(3)">
-                    <h3 class="font-semibold text-blue-600">Bab 3: Kebiasaan Berbasis Identitas</h3>
-                    <p class="text-gray-600 text-sm mt-2">Fokus pada siapa Anda ingin menjadi</p>
-                </div>
-                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(4)">
-                    <h3 class="font-semibold text-blue-600">Bab 4: Lingkungan dan Kebiasaan</h3>
-                    <p class="text-gray-600 text-sm mt-2">Desain lingkungan untuk kesuksesan</p>
-                </div>
-                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(5)">
-                    <h3 class="font-semibold text-blue-600">Bab 5: Habit Stacking</h3>
-                    <p class="text-gray-600 text-sm mt-2">Menumpuk kebiasaan untuk efektivitas maksimal</p>
-                </div>
-                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(6)">
-                    <h3 class="font-semibold text-blue-600">Bab 6: Kesimpulan & Implementasi</h3>
-                    <p class="text-gray-600 text-sm mt-2">Langkah praktis memulai perubahan hari ini</p>
+
+                <!-- Advanced -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <span class="gradient-green w-8 h-8 rounded-full flex items-center justify-center text-white text-sm mr-3">3</span>
+                        Strategi Lanjutan
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('environment')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">Environment Design</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Desain lingkungan untuk sukses</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" onclick="showHabit('stacking')">
+                            <h4 class="font-medium text-gray-800 dark:text-white">Habit Stacking</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Menumpuk kebiasaan baru</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Summary Section -->
-        <section id="summary" class="section hidden">
-            <div id="chapterContent">
+        <!-- Habits Detail Section -->
+        <section id="habits" class="section hidden">
+            <div id="habitDetail">
                 <div class="text-center py-12">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Pilih Bab dari Daftar Isi</h2>
-                    <p class="text-gray-600">Klik pada salah satu bab di menu Daftar Isi untuk mulai membaca ringkasan</p>
-                    <button onclick="showSection('contents')" class="mt-4 bg-blue-600 text-white btn-touch hover:bg-blue-700 transition-colors">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Pilih Konsep dari Daftar Isi</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Klik pada salah satu konsep untuk mempelajari detail implementasinya</p>
+                    <button onclick="showSection('contents')" class="btn-touch bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
                         📋 Lihat Daftar Isi
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- Action Plan Section -->
-        <section id="action" class="section hidden">
-            <h2 class="font-bold text-gray-800 mb-8 text-center">✅ Action Plan Saya</h2>
-            <div class="bg-white rounded-xl shadow-lg mobile-p-4 p-6">
-                <div class="mb-6">
-                    <h3 class="font-semibold mb-4">Kebiasaan yang Ingin Saya Bangun:</h3>
-                    <div id="habitsList" class="space-y-3">
-                        <!-- Habits will be added here -->
+        <!-- Progress Tracker Section -->
+        <section id="tracker" class="section hidden">
+            <h2 class="font-bold text-gray-800 dark:text-white mb-6">📊 Progress Tracker</h2>
+            
+            <!-- Add New Habit -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg mb-6">
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-4">Tambah Kebiasaan Baru</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="newHabit" placeholder="Contoh: Membaca 10 halaman setiap pagi" 
+                           class="flex-1 p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
+                    <button onclick="addHabit()" class="btn-touch bg-green-500 hover:bg-green-600 text-white rounded-xl">
+                        ➕ Tambah
+                    </button>
+                </div>
+            </div>
+
+            <!-- Habits List -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg mb-6">
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-4">Kebiasaan Saya</h3>
+                <div id="habitsList" class="space-y-3">
+                    <!-- Habits will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Weekly Progress -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-4">Progress Minggu Ini</h3>
+                <div class="grid grid-cols-7 gap-2 mb-4">
+                    <div class="text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Sen</p>
+                        <div class="w-8 h-8 bg-green-500 rounded-full mx-auto"></div>
                     </div>
-                    <div class="flex mobile-stack mobile-gap-4 gap-3 mt-4">
-                        <input type="text" id="newHabit" placeholder="Contoh: Olahraga 15 menit setiap pagi" class="flex-1 mobile-full input-touch border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <button onclick="addHabit()" class="bg-green-600 text-white btn-touch hover:bg-green-700 transition-colors mobile-full">
-                            ➕ Tambah
-                        </button>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Sel</p>
+                        <div class="w-8 h-8 bg-green-500 rounded-full mx-auto"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Rab</p>
+                        <div class="w-8 h-8 bg-green-500 rounded-full mx-auto"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Kam</p>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full mx-auto"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Jum</p>
+                        <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Sab</p>
+                        <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mb-2">Min</p>
+                        <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto"></div>
                     </div>
                 </div>
-                
-                <div class="border-t pt-6">
-                    <h3 class="font-semibold mb-4">Progress Tracker:</h3>
-                    <div class="bg-gray-100 rounded-lg mobile-p-4 p-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-medium">Kebiasaan Tercapai Hari Ini</span>
-                            <span id="progressText" class="text-blue-600 font-semibold">0/0</span>
-                        </div>
-                        <div class="w-full bg-gray-300 rounded-full h-3">
-                            <div id="progressBar" class="bg-blue-600 h-3 rounded-full progress-bar" style="width: 0%"></div>
-                        </div>
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span class="text-gray-600 dark:text-gray-300">Selesai</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                        <span class="text-gray-600 dark:text-gray-300">Hari ini</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                        <span class="text-gray-600 dark:text-gray-300">Belum</span>
                     </div>
                 </div>
             </div>
@@ -293,222 +379,266 @@
 
         <!-- Notes Section -->
         <section id="notes" class="section hidden">
-            <h2 class="font-bold text-gray-800 mb-8 text-center">📝 Catatan Pribadi</h2>
-            <div class="bg-white rounded-xl shadow-lg mobile-p-4 p-6">
+            <h2 class="font-bold text-gray-800 dark:text-white mb-6">📝 Catatan Pribadi</h2>
+            
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
                 <div class="mb-6">
-                    <label class="block font-semibold mb-3">Refleksi & Insight Saya:</label>
-                    <textarea id="personalNotes" rows="8" class="w-full input-touch border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Tulis refleksi Anda tentang konsep-konsep dalam Atomic Habits...
+                    <label class="block font-semibold text-gray-800 dark:text-white mb-3">Refleksi & Insight Saya:</label>
+                    <textarea id="personalNotes" rows="10" 
+                              class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-white" 
+                              placeholder="Tulis refleksi Anda tentang konsep-konsep dalam Atomic Habits...
 
 Contoh:
-- Apa kebiasaan buruk yang ingin saya ubah?
-- Bagaimana saya bisa menerapkan 4 hukum perilaku?
-- Identitas baru apa yang ingin saya bangun?"></textarea>
+- Kebiasaan apa yang ingin saya ubah?
+- Bagaimana saya menerapkan 4 hukum perilaku?
+- Identitas baru apa yang ingin saya bangun?
+- Lingkungan seperti apa yang mendukung tujuan saya?"></textarea>
                 </div>
-                <button onclick="saveNotes()" class="bg-blue-600 text-white btn-touch hover:bg-blue-700 transition-colors mobile-full">
-                    💾 Simpan Catatan
-                </button>
+                
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button onclick="saveNotes()" class="btn-touch bg-blue-500 hover:bg-blue-600 text-white rounded-xl flex-1">
+                        💾 Simpan Catatan
+                    </button>
+                    <button onclick="exportNotes()" class="btn-touch bg-green-500 hover:bg-green-600 text-white rounded-xl flex-1">
+                        📤 Export
+                    </button>
+                </div>
+                
                 <div id="saveMessage" class="mt-3 text-green-600 font-medium hidden">✅ Catatan berhasil disimpan!</div>
             </div>
         </section>
     </main>
 
     <script>
-        // Quotes database
+        // App State
+        let currentSection = 'home';
+        let habits = JSON.parse(localStorage.getItem('atomicHabitsApp') || '[]');
+        let notes = localStorage.getItem('atomicNotesApp') || '';
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        // Quotes Database
         const quotes = [
-            "Perubahan kecil yang konsisten menghasilkan hasil yang luar biasa.",
-            "Anda tidak naik ke level tujuan Anda. Anda turun ke level sistem Anda.",
-            "Setiap tindakan adalah suara untuk jenis orang yang ingin Anda jadi.",
-            "Kebiasaan adalah bunga majemuk dari perbaikan diri.",
-            "Fokus pada identitas yang ingin Anda miliki, bukan hasil yang ingin Anda capai.",
-            "Lingkungan adalah tangan tak terlihat yang membentuk perilaku manusia.",
-            "Motivasi itu berlebihan. Lingkungan sering kali lebih penting."
+            "Perubahan kecil yang konsisten menghasilkan hasil yang luar biasa",
+            "Anda tidak naik ke level tujuan Anda. Anda turun ke level sistem Anda",
+            "Setiap tindakan adalah suara untuk jenis orang yang ingin Anda jadi",
+            "Kebiasaan adalah bunga majemuk dari perbaikan diri",
+            "Fokus pada identitas yang ingin Anda miliki, bukan hasil yang ingin Anda capai",
+            "Lingkungan adalah tangan tak terlihat yang membentuk perilaku manusia",
+            "Motivasi itu berlebihan. Lingkungan sering kali lebih penting"
         ];
 
-        // Chapter content database
-        const chapters = {
-            1: {
-                title: "Kekuatan Atomic Habits",
+        // Habits Content Database
+        const habitsContent = {
+            compound: {
+                title: "The Power of Compound",
+                icon: "📈",
                 concept: "Perubahan kecil yang konsisten (1% setiap hari) menghasilkan dampak luar biasa dalam jangka panjang.",
-                detail: "James Clear menjelaskan bahwa kita sering meremehkan kekuatan kebiasaan kecil. Jika Anda meningkat 1% setiap hari selama setahun, Anda akan menjadi 37 kali lebih baik. Sebaliknya, jika menurun 1% setiap hari, Anda hampir mencapai nol. Inilah kekuatan compound effect dalam kehidupan sehari-hari.",
-                example: "Seorang pilot yang mengubah arah pesawat hanya 3,5 derajat dari Los Angeles akan mendarat di Washington DC, bukan New York. Begitu juga dengan hidup kita - perubahan kecil dalam kebiasaan harian dapat mengubah tujuan hidup kita secara drastis.",
+                explanation: "James Clear menjelaskan bahwa kita sering meremehkan kekuatan kebiasaan kecil. Jika Anda meningkat 1% setiap hari selama setahun, Anda akan menjadi 37 kali lebih baik. Sebaliknya, jika menurun 1% setiap hari, Anda hampir mencapai nol.",
+                example: "Seorang pilot yang mengubah arah pesawat hanya 3,5 derajat dari Los Angeles akan mendarat di Washington DC, bukan New York. Begitu juga dengan hidup - perubahan kecil dalam kebiasaan harian dapat mengubah tujuan hidup secara drastis.",
                 tips: [
                     "Mulai dengan kebiasaan yang sangat kecil (2 menit rule)",
                     "Fokus pada konsistensi, bukan intensitas",
                     "Rayakan kemenangan kecil setiap hari",
                     "Jangan meremehkan kekuatan 1% improvement"
-                ],
-                insight: "\"Kebiasaan adalah bunga majemuk dari perbaikan diri. Sama seperti uang yang bertambah melalui bunga majemuk, efek dari kebiasaan Anda bertambah saat Anda mengulanginya.\""
+                ]
             },
-            2: {
-                title: "4 Hukum Perubahan Perilaku",
-                concept: "Framework praktis untuk membangun kebiasaan baik: Make it Obvious, Attractive, Easy, dan Satisfying.",
-                detail: "James Clear mengembangkan 4 hukum yang berdasarkan riset neurosains dan psikologi perilaku. Setiap kebiasaan melewati 4 tahap: Cue (petunjuk), Craving (keinginan), Response (respons), dan Reward (hadiah). 4 hukum ini dirancang untuk mengoptimalkan setiap tahap tersebut.",
-                example: "Untuk membangun kebiasaan membaca: 1) Obvious: Letakkan buku di meja kerja, 2) Attractive: Pilih buku yang menarik minat Anda, 3) Easy: Mulai dengan 1 halaman per hari, 4) Satisfying: Catat progress di jurnal dan rayakan.",
-                tips: [
-                    "Buat kebiasaan baik terlihat jelas di lingkungan Anda",
-                    "Gabungkan kebiasaan baru dengan aktivitas yang Anda sukai",
-                    "Mulai dengan versi 2 menit dari kebiasaan tersebut",
-                    "Berikan reward immediate setelah melakukan kebiasaan"
-                ],
-                insight: "\"Anda tidak naik ke level tujuan Anda. Anda turun ke level sistem Anda. Fokus pada sistem, bukan tujuan.\""
-            },
-            3: {
-                title: "Kebiasaan Berbasis Identitas",
+            identity: {
+                title: "Identity-Based Habits",
+                icon: "🎭",
                 concept: "Perubahan sejati dimulai dari identitas. Fokus pada 'siapa Anda ingin menjadi', bukan 'apa yang ingin Anda capai'.",
-                detail: "Ada 3 level perubahan: Outcome (hasil), Process (proses), dan Identity (identitas). Kebanyakan orang fokus pada outcome, padahal perubahan yang bertahan lama dimulai dari identity. Setiap tindakan adalah 'suara' untuk jenis orang yang ingin Anda jadi.",
-                example: "Alih-alih berkata 'Saya ingin menurunkan berat badan', katakan 'Saya adalah orang yang menjaga kesehatan'. Alih-alih 'Saya ingin belajar gitar', katakan 'Saya adalah seorang musisi'. Identitas ini akan mendorong tindakan yang konsisten.",
+                explanation: "Ada 3 level perubahan: Outcome (hasil), Process (proses), dan Identity (identitas). Kebanyakan orang fokus pada outcome, padahal perubahan yang bertahan lama dimulai dari identity.",
+                example: "Alih-alih berkata 'Saya ingin menurunkan berat badan', katakan 'Saya adalah orang yang menjaga kesehatan'. Alih-alih 'Saya ingin belajar gitar', katakan 'Saya adalah seorang musisi'.",
                 tips: [
                     "Tentukan identitas yang ingin Anda miliki",
                     "Buktikan identitas tersebut dengan tindakan kecil setiap hari",
                     "Gunakan kalimat 'Saya adalah orang yang...'",
                     "Fokus pada proses, bukan hasil akhir"
-                ],
-                insight: "\"Setiap tindakan adalah suara untuk jenis orang yang ingin Anda jadi. Tidak ada satu pun yang akan mengubah kepercayaan Anda, tetapi seiring berjalannya waktu, suara-suara itu bertambah.\""
+                ]
             },
-            4: {
-                title: "Lingkungan dan Kebiasaan",
+            obvious: {
+                title: "Make it Obvious",
+                icon: "👁️",
+                concept: "Hukum pertama: Buat kebiasaan baik terlihat jelas dan kebiasaan buruk tidak terlihat.",
+                explanation: "Otak manusia selalu mencari petunjuk (cues) untuk memulai kebiasaan. Dengan membuat petunjuk kebiasaan baik lebih obvious, kita meningkatkan kemungkinan melakukannya.",
+                example: "Untuk membaca lebih banyak: letakkan buku di meja kerja. Untuk minum lebih banyak air: taruh botol air di tempat yang terlihat. Untuk mengurangi junk food: sembunyikan makanan tidak sehat.",
+                tips: [
+                    "Gunakan implementation intention: 'Saya akan [PERILAKU] pada [WAKTU] di [TEMPAT]'",
+                    "Buat habit stacking: 'Setelah [KEBIASAAN LAMA], saya akan [KEBIASAAN BARU]'",
+                    "Desain lingkungan untuk mendukung kebiasaan baik",
+                    "Hilangkan petunjuk kebiasaan buruk dari lingkungan"
+                ]
+            },
+            attractive: {
+                title: "Make it Attractive",
+                icon: "✨",
+                concept: "Hukum kedua: Buat kebiasaan baik menarik dan kebiasaan buruk tidak menarik.",
+                explanation: "Dopamine adalah neurotransmitter yang mendorong kita untuk bertindak. Kita bisa memanfaatkan dopamine dengan membuat kebiasaan baik lebih menarik.",
+                example: "Temptation bundling: gabungkan kebiasaan yang perlu Anda lakukan dengan kebiasaan yang ingin Anda lakukan. Contoh: hanya menonton Netflix sambil berolahraga di treadmill.",
+                tips: [
+                    "Gunakan temptation bundling",
+                    "Bergabung dengan komunitas yang mendukung kebiasaan Anda",
+                    "Ciptakan ritual motivasi sebelum kebiasaan sulit",
+                    "Fokus pada manfaat jangka panjang, bukan pengorbanan jangka pendek"
+                ]
+            },
+            easy: {
+                title: "Make it Easy",
+                icon: "⚡",
+                concept: "Hukum ketiga: Buat kebiasaan baik mudah dilakukan dan kebiasaan buruk sulit dilakukan.",
+                explanation: "Manusia secara alami mengikuti Law of Least Effort - kita akan memilih opsi yang membutuhkan energi paling sedikit. Manfaatkan ini untuk keuntungan Anda.",
+                example: "Untuk berolahraga: siapkan pakaian olahraga malam sebelumnya. Untuk makan sehat: potong sayuran dan simpan di kulkas. Untuk mengurangi media sosial: logout dari semua akun.",
+                tips: [
+                    "Kurangi friction untuk kebiasaan baik",
+                    "Tingkatkan friction untuk kebiasaan buruk",
+                    "Gunakan two-minute rule: versi baru kebiasaan harus bisa diselesaikan dalam 2 menit",
+                    "Otomatisasi kebiasaan sebanyak mungkin"
+                ]
+            },
+            satisfying: {
+                title: "Make it Satisfying",
+                icon: "🎉",
+                concept: "Hukum keempat: Buat kebiasaan baik memuaskan dan kebiasaan buruk tidak memuaskan.",
+                explanation: "Kita lebih mungkin mengulangi perilaku yang memberikan kepuasan immediate. Cardinal Rule of Behavior Change: What is immediately rewarded is repeated.",
+                example: "Gunakan habit tracker untuk melihat progress visual. Buat reward system: setelah workout 7 hari berturut-turut, beli baju olahraga baru. Rayakan small wins dengan cara yang sehat.",
+                tips: [
+                    "Gunakan reinforcement: berikan reward setelah menyelesaikan kebiasaan",
+                    "Buat progress visible dengan habit tracker",
+                    "Jangan pernah melewatkan dua kali berturut-turut",
+                    "Fokus pada proses, bukan hasil"
+                ]
+            },
+            environment: {
+                title: "Environment Design",
+                icon: "🏠",
                 concept: "Lingkungan adalah tangan tak terlihat yang membentuk perilaku. Desain lingkungan Anda untuk kesuksesan.",
-                detail: "Manusia adalah produk dari lingkungan mereka. Kita sering berpikir bahwa motivasi dan kemauan yang menentukan perilaku, padahal lingkungan memiliki pengaruh yang jauh lebih besar. Dengan mendesain lingkungan yang tepat, kebiasaan baik menjadi lebih mudah dan kebiasaan buruk menjadi lebih sulit.",
-                example: "Untuk makan lebih sehat: letakkan buah-buahan di tempat yang terlihat, sembunyikan junk food di lemari. Untuk lebih sering olahraga: siapkan pakaian olahraga di samping tempat tidur. Untuk mengurangi screen time: charge HP di ruangan lain saat tidur.",
+                explanation: "Kita sering berpikir bahwa motivasi dan kemauan yang menentukan perilaku, padahal lingkungan memiliki pengaruh yang jauh lebih besar. Context is king.",
+                example: "Untuk produktivitas: buat workspace yang bersih dan terorganisir. Untuk kesehatan: isi kulkas dengan makanan sehat. Untuk belajar: ciptakan reading corner yang nyaman.",
                 tips: [
                     "Buat kebiasaan baik lebih obvious di lingkungan Anda",
                     "Hilangkan atau sembunyikan trigger kebiasaan buruk",
-                    "Desain ulang ruang kerja dan rumah untuk mendukung tujuan Anda",
-                    "Bergabung dengan komunitas yang mendukung identitas baru Anda"
-                ],
-                insight: "\"Lingkungan adalah tangan tak terlihat yang membentuk perilaku manusia. Meskipun kita memiliki kepribadian unik, perilaku tertentu cenderung muncul berulang kali di bawah kondisi lingkungan tertentu.\""
+                    "Desain ulang ruang untuk mendukung tujuan Anda",
+                    "Bergabung dengan komunitas yang mendukung identitas baru"
+                ]
             },
-            5: {
+            stacking: {
                 title: "Habit Stacking",
+                icon: "🔗",
                 concept: "Menumpuk kebiasaan baru dengan kebiasaan yang sudah ada untuk membangun rutinitas yang kuat.",
-                detail: "Habit stacking menggunakan Diderot Effect - kecenderungan satu pembelian mengarah pada pembelian lainnya. Dalam konteks kebiasaan, satu kebiasaan secara alami mengarah pada kebiasaan berikutnya. Formula: 'Setelah [KEBIASAAN LAMA], saya akan [KEBIASAAN BARU]'.",
-                example: "Setelah saya menuangkan kopi pagi, saya akan menulis 3 hal yang saya syukuri. Setelah saya duduk untuk makan siang, saya akan menelepon satu orang yang saya sayangi. Setelah saya menutup laptop, saya akan merapikan meja kerja.",
+                explanation: "Habit stacking menggunakan Diderot Effect - kecenderungan satu kebiasaan mengarah pada kebiasaan lainnya. Formula: 'Setelah [KEBIASAAN LAMA], saya akan [KEBIASAAN BARU]'.",
+                example: "Setelah saya menuangkan kopi pagi, saya akan menulis 3 hal yang saya syukuri. Setelah saya duduk untuk makan siang, saya akan menelepon satu orang yang saya sayangi.",
                 tips: [
                     "Identifikasi kebiasaan yang sudah kuat dalam rutinitas Anda",
                     "Pilih kebiasaan baru yang ingin Anda bangun",
                     "Gunakan formula: 'Setelah [X], saya akan [Y]'",
                     "Mulai dengan habit stack yang sederhana dan spesifik"
-                ],
-                insight: "\"Salah satu strategi terbaik yang saya tahu untuk membangun kebiasaan baru adalah mengidentifikasi kebiasaan yang sudah Anda lakukan setiap hari dan kemudian menumpuk perilaku baru Anda di atasnya.\""
-            },
-            6: {
-                title: "Kesimpulan & Implementasi",
-                concept: "Perubahan nyata dimulai hari ini. Gunakan semua konsep untuk membangun sistem kebiasaan yang berkelanjutan.",
-                detail: "Atomic Habits bukan tentang perubahan drastis, tetapi tentang sistem yang berkelanjutan. Kombinasikan semua konsep: mulai dengan identitas yang jelas, gunakan 4 hukum perilaku, desain lingkungan yang mendukung, dan bangun habit stack yang kuat. Yang terpenting adalah konsistensi, bukan kesempurnaan.",
-                example: "Rencana 30 hari: Minggu 1-2 fokus pada satu kebiasaan kecil, Minggu 3-4 tambahkan habit stacking, Minggu 5-6 optimalisasi lingkungan, Minggu 7-8 evaluasi dan penyesuaian. Ingat: progress lebih penting daripada perfection.",
-                tips: [
-                    "Pilih 1-2 kebiasaan untuk dimulai, jangan terlalu banyak",
-                    "Gunakan habit tracker untuk monitoring progress",
-                    "Siapkan rencana untuk menghadapi hari-hari sulit",
-                    "Review dan adjust sistem Anda setiap minggu",
-                    "Rayakan small wins dan bersabar dengan prosesnya"
-                ],
-                insight: "\"Perubahan yang tampaknya kecil dan tidak penting pada awalnya akan menghasilkan hasil yang luar biasa jika Anda bersedia bertahan dengan mereka selama bertahun-tahun.\""
+                ]
             }
         };
 
-        // Initialize app
-        let currentSection = 'home';
-        let habits = JSON.parse(localStorage.getItem('atomicHabits') || '[]');
-        let notes = localStorage.getItem('atomicNotes') || '';
-
+        // Initialize App
         function init() {
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('darkModeIcon').textContent = '☀️';
+            }
             showRandomQuote();
             loadHabits();
             loadNotes();
             updateProgress();
+            setInterval(showRandomQuote, 30000);
         }
 
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('darkMode', isDarkMode);
+            document.documentElement.classList.toggle('dark');
+            document.getElementById('darkModeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        // Random Quote
         function showRandomQuote() {
             const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('quoteText').textContent = `"${randomQuote}"`;
+            document.getElementById('quoteText').textContent = randomQuote;
         }
 
+        // Navigation
         function showSection(section) {
-            // Hide all sections
             document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-            
-            // Show selected section
             document.getElementById(section).classList.remove('hidden');
             
-            // Update nav buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-100', 'text-blue-600');
+                btn.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-600');
             });
-            event.target.classList.add('bg-blue-100', 'text-blue-600');
+            event.target.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-600');
             
             currentSection = section;
         }
 
-        function showChapter(chapterNum) {
-            const chapter = chapters[chapterNum];
-            if (!chapter) return;
+        // Show Habit Detail
+        function showHabit(habitKey) {
+            const habit = habitsContent[habitKey];
+            if (!habit) return;
 
             const content = `
-                <div class="max-w-4xl mx-auto">
-                    <div class="bg-white rounded-xl shadow-lg mobile-p-4 p-8 mb-8">
-                        <h2 class="font-bold text-gray-800 mb-6">📖 ${chapter.title}</h2>
+                <div class="max-w-4xl mx-auto fade-in">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex items-center mb-6">
+                            <div class="gradient-bg w-12 h-12 rounded-full flex items-center justify-center text-white text-xl mr-4">
+                                ${habit.icon}
+                            </div>
+                            <h2 class="font-bold text-gray-800 dark:text-white">${habit.title}</h2>
+                        </div>
                         
-                        <!-- Inti Konsep -->
-                        <div class="mb-8 mobile-p-4 p-6 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-                            <h3 class="font-semibold text-blue-800 mb-3">🎯 Inti Konsep</h3>
-                            <p class="text-gray-700 leading-relaxed">${chapter.concept}</p>
+                        <!-- Konsep Inti -->
+                        <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-l-4 border-blue-500">
+                            <h3 class="font-semibold text-blue-800 dark:text-blue-300 mb-2">🎯 Konsep Inti</h3>
+                            <p class="text-gray-700 dark:text-gray-300">${habit.concept}</p>
                         </div>
 
-                        <!-- Penjelasan Detail -->
-                        <div class="mb-8">
-                            <h3 class="font-semibold text-gray-800 mb-4">📚 Penjelasan Detail</h3>
-                            <p class="text-gray-700 leading-relaxed">${chapter.detail}</p>
+                        <!-- Penjelasan Praktis -->
+                        <div class="mb-6">
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-3">📚 Penjelasan Praktis</h3>
+                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${habit.explanation}</p>
                         </div>
 
-                        <!-- Contoh -->
-                        <div class="mb-8 mobile-p-4 p-6 bg-green-50 rounded-lg border-l-4 border-green-500">
-                            <h3 class="font-semibold text-green-800 mb-3">💡 Contoh Praktis</h3>
-                            <p class="text-gray-700 leading-relaxed">${chapter.example}</p>
+                        <!-- Contoh Penerapan -->
+                        <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border-l-4 border-green-500">
+                            <h3 class="font-semibold text-green-800 dark:text-green-300 mb-2">💡 Contoh Penerapan</h3>
+                            <p class="text-gray-700 dark:text-gray-300">${habit.example}</p>
                         </div>
 
-                        <!-- Tips Praktis -->
-                        <div class="mb-8">
-                            <h3 class="font-semibold text-gray-800 mb-4">✅ Tips Praktis</h3>
-                            <ul class="space-y-3">
-                                ${chapter.tips.map(tip => `
+                        <!-- Tips Implementasi -->
+                        <div class="mb-6">
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-3">✅ Tips Implementasi</h3>
+                            <ul class="space-y-2">
+                                ${habit.tips.map(tip => `
                                     <li class="flex items-start">
                                         <span class="text-orange-500 mr-3 mt-1">▶</span>
-                                        <span class="text-gray-700">${tip}</span>
+                                        <span class="text-gray-700 dark:text-gray-300">${tip}</span>
                                     </li>
                                 `).join('')}
                             </ul>
                         </div>
-
-                        <!-- Insight -->
-                        <div class="mobile-p-4 p-6 bg-purple-50 rounded-lg border-l-4 border-purple-500">
-                            <h3 class="font-semibold text-purple-800 mb-3">💭 Insight dari James Clear</h3>
-                            <p class="text-gray-700 italic leading-relaxed">${chapter.insight}</p>
-                        </div>
                     </div>
 
                     <!-- Navigation -->
-                    <div class="flex mobile-stack mobile-gap-4 justify-between items-center">
-                        <button onclick="showSection('contents')" class="bg-gray-600 text-white btn-touch hover:bg-gray-700 transition-colors mobile-full">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="showSection('contents')" class="btn-touch bg-gray-600 hover:bg-gray-700 text-white rounded-xl flex-1">
                             ← Kembali ke Daftar Isi
                         </button>
-                        ${chapterNum < 6 ? `
-                            <button onclick="showChapter(${chapterNum + 1})" class="bg-blue-600 text-white btn-touch hover:bg-blue-700 transition-colors mobile-full">
-                                Bab Selanjutnya →
-                            </button>
-                        ` : `
-                            <button onclick="showSection('action')" class="bg-green-600 text-white btn-touch hover:bg-green-700 transition-colors mobile-full">
-                                Mulai Action Plan →
-                            </button>
-                        `}
+                        <button onclick="showSection('tracker')" class="btn-touch bg-green-500 hover:bg-green-600 text-white rounded-xl flex-1">
+                            Mulai Tracking →
+                        </button>
                     </div>
                 </div>
             `;
 
-            document.getElementById('chapterContent').innerHTML = content;
-            showSection('summary');
+            document.getElementById('habitDetail').innerHTML = content;
+            showSection('habits');
         }
 
+        // Habits Management
         function addHabit() {
             const input = document.getElementById('newHabit');
             const habitText = input.value.trim();
@@ -549,19 +679,19 @@ Contoh:
         function loadHabits() {
             const container = document.getElementById('habitsList');
             if (habits.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 italic">Belum ada kebiasaan yang ditambahkan. Mulai dengan menambahkan satu kebiasaan kecil!</p>';
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 italic text-center py-8">Belum ada kebiasaan yang ditambahkan. Mulai dengan menambahkan satu kebiasaan kecil!</p>';
                 return;
             }
 
             container.innerHTML = habits.map(habit => `
-                <div class="flex items-center justify-between mobile-p-4 p-4 border border-gray-200 rounded-lg ${habit.completed ? 'bg-green-50 border-green-200' : 'bg-white'}">
-                    <div class="flex items-center">
+                <div class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-xl ${habit.completed ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' : 'bg-white dark:bg-gray-700'}">
+                    <div class="flex items-center flex-1">
                         <input type="checkbox" ${habit.completed ? 'checked' : ''} 
                                onchange="toggleHabit(${habit.id})"
-                               class="w-5 h-5 text-green-600 rounded focus:ring-green-500">
-                        <span class="ml-3 ${habit.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${habit.text}</span>
+                               class="w-5 h-5 text-green-600 rounded focus:ring-green-500 mr-3">
+                        <span class="flex-1 ${habit.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-800 dark:text-white'}">${habit.text}</span>
                     </div>
-                    <button onclick="deleteHabit(${habit.id})" class="text-red-500 hover:text-red-700 transition-colors btn-touch">
+                    <button onclick="deleteHabit(${habit.id})" class="text-red-500 hover:text-red-700 transition-colors p-2">
                         🗑️
                     </button>
                 </div>
@@ -573,17 +703,19 @@ Contoh:
             const total = habits.length;
             const percentage = total > 0 ? (completed / total) * 100 : 0;
             
-            document.getElementById('progressText').textContent = `${completed}/${total}`;
-            document.getElementById('progressBar').style.width = `${percentage}%`;
+            document.getElementById('habitCount').textContent = `${completed}/${total}`;
+            document.getElementById('progressPercent').textContent = `${Math.round(percentage)}%`;
+            document.getElementById('progressCircle').style.strokeDasharray = `${percentage}, 100`;
         }
 
         function saveHabits() {
-            localStorage.setItem('atomicHabits', JSON.stringify(habits));
+            localStorage.setItem('atomicHabitsApp', JSON.stringify(habits));
         }
 
+        // Notes Management
         function saveNotes() {
             const notesText = document.getElementById('personalNotes').value;
-            localStorage.setItem('atomicNotes', notesText);
+            localStorage.setItem('atomicNotesApp', notesText);
             
             const message = document.getElementById('saveMessage');
             message.classList.remove('hidden');
@@ -594,7 +726,18 @@ Contoh:
             document.getElementById('personalNotes').value = notes;
         }
 
-        // Event listeners
+        function exportNotes() {
+            const notesText = document.getElementById('personalNotes').value;
+            const blob = new Blob([notesText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'atomic-habits-notes.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Event Listeners
         document.getElementById('newHabit').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addHabit();
@@ -603,9 +746,6 @@ Contoh:
 
         // Initialize app when page loads
         init();
-
-        // Refresh quote every 30 seconds
-        setInterval(showRandomQuote, 30000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fd71e826395f9d',t:'MTc1Nzk5NTEwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fe49ea565cfda6',t:'MTc1ODAwMzk0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
