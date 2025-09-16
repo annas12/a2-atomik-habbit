@@ -117,13 +117,11 @@
     <!-- Header -->
 
 <!-- Header: Hemat Space & Responsif -->
+<!-- Header: Hemat Space & Responsif -->
 <header class="gradient-bg text-white">
   <style>
-    /* Ringan: spacing & tipografi fluid */
     .section-spacing{padding-block:clamp(12px,2.5vw,24px)}
     .title-tight{letter-spacing:-0.015em;line-height:1.15}
-    .subtight{line-height:1.3}
-    /* Kartu kutipan ringkas, tetap terbaca di mobile */
     .quote-card{
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
@@ -137,16 +135,22 @@
 
   <div class="section-spacing px-3 sm:px-4">
     <div class="mx-auto max-w-screen-sm text-center">
-      <h1 class="font-bold mb-1 title-tight text-[clamp(1.6rem,5.2vw,2.6rem)]]">
-        📚 Atomic Habits<p class="mb-0.5 subtight text-[clamp(.95rem,2.2vw,1.1rem)]]">
-        oleh James Clear
-      </p>
-      </h1>
-      <p class="opacity-90 subtight text-[clamp(.85rem,1.8vw,.98rem)]">
+      <!-- Judul & Penulis sejajar -->
+      <div class="flex items-baseline justify-center space-x-2 flex-wrap">
+        <h1 class="font-bold title-tight text-[clamp(1.6rem,5.2vw,2.6rem)]">
+          📚 Atomic Habits
+        </h1>
+        <span class="italic text-[clamp(.9rem,2vw,1rem)] opacity-90">
+          oleh James Clear
+        </span>
+      </div>
+
+      <!-- Subjudul ringkas satu baris -->
+      <p class="mt-1 opacity-80 text-[clamp(.8rem,1.6vw,.95rem)]">
         Ringkasan Cerdas, Mudah Dipahami, Siap Dipraktikkan
       </p>
 
-      <!-- Random Quote (ringkas & responsif) -->
+      <!-- Random Quote -->
       <div id="randomQuote" class="mt-3 quote-card quote-animation">
         <p id="quoteText" class="italic text-[clamp(.9rem,2vw,1.05rem)] leading-relaxed"></p>
       </div>
@@ -154,7 +158,6 @@
   </div>
 </header>
 
-<!-- Opsional: JS super ringkas untuk menampilkan kutipan acak -->
 <script>
   (function(){
     const quotes = [
