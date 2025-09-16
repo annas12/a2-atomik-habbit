@@ -114,6 +114,9 @@
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-3">
+                    <button onclick="toggleDrawer()" class="btn-touch bg-white/20 hover:bg-white/30 rounded-full mr-2">
+                        <span class="text-xl">☰</span>
+                    </button>
                     <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                         <span class="text-xl">📚</span>
                     </div>
@@ -129,24 +132,56 @@
         </div>
     </header>
 
-    <!-- Navigation -->
-    <nav class="bg-white dark:bg-gray-800 shadow-sm sticky top-16 z-40 transition-colors duration-300">
-        <div class="container mx-auto px-4">
-            <div class="nav-mobile flex space-x-2 py-3">
-                <button onclick="showSection('home')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
-                    🏠 <span class="hidden sm:inline">Beranda</span>
+    <!-- Navigation Drawer -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity duration-300" onclick="toggleDrawer()"></div>
+    
+    <nav id="navigationDrawer" class="fixed top-0 left-0 h-full w-80 bg-white dark:bg-gray-800 shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-6">
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center">
+                        <span class="text-white text-xl">📚</span>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-gray-800 dark:text-white">Atomic Habits</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">James Clear</p>
+                    </div>
+                </div>
+                <button onclick="toggleDrawer()" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <span class="text-xl">✕</span>
                 </button>
-                <button onclick="showSection('contents')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
-                    📋 <span class="hidden sm:inline">Daftar Isi</span>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="space-y-2">
+                <button onclick="showSection('home'); toggleDrawer()" class="nav-btn w-full flex items-center space-x-3 p-4 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-left">
+                    <span class="text-xl">🏠</span>
+                    <span class="font-medium text-gray-800 dark:text-white">Beranda</span>
                 </button>
-                <button onclick="showSection('habits')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
-                    ⚡ <span class="hidden sm:inline">Habits</span>
+                <button onclick="showSection('contents'); toggleDrawer()" class="nav-btn w-full flex items-center space-x-3 p-4 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-left">
+                    <span class="text-xl">📋</span>
+                    <span class="font-medium text-gray-800 dark:text-white">Daftar Isi</span>
                 </button>
-                <button onclick="showSection('tracker')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
-                    📊 <span class="hidden sm:inline">Tracker</span>
+                <button onclick="showSection('habits'); toggleDrawer()" class="nav-btn w-full flex items-center space-x-3 p-4 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-left">
+                    <span class="text-xl">⚡</span>
+                    <span class="font-medium text-gray-800 dark:text-white">Habits</span>
                 </button>
-                <button onclick="showSection('notes')" class="nav-btn btn-touch font-medium transition-all hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg whitespace-nowrap">
-                    📝 <span class="hidden sm:inline">Catatan</span>
+                <button onclick="showSection('tracker'); toggleDrawer()" class="nav-btn w-full flex items-center space-x-3 p-4 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-left">
+                    <span class="text-xl">📊</span>
+                    <span class="font-medium text-gray-800 dark:text-white">Tracker</span>
+                </button>
+                <button onclick="showSection('notes'); toggleDrawer()" class="nav-btn w-full flex items-center space-x-3 p-4 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-left">
+                    <span class="text-xl">📝</span>
+                    <span class="font-medium text-gray-800 dark:text-white">Catatan</span>
+                </button>
+            </div>
+
+            <!-- Dark Mode Toggle in Drawer -->
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
+                <button onclick="toggleDarkMode()" class="w-full flex items-center space-x-3 p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-left">
+                    <span id="drawerDarkModeIcon" class="text-xl">🌙</span>
+                    <span class="font-medium text-gray-800 dark:text-white">Dark Mode</span>
                 </button>
             </div>
         </div>
@@ -169,25 +204,25 @@
 
             <!-- Overview Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover">
-                    <div class="gradient-green w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <span class="text-white text-xl">🎯</span>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover text-center">
+                    <div class="gradient-green w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-white text-2xl">🎯</span>
                     </div>
                     <h3 class="font-semibold text-gray-800 dark:text-white mb-2">1% Better</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">Perbaikan kecil setiap hari menghasilkan perubahan luar biasa</p>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover">
-                    <div class="gradient-card w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <span class="text-white text-xl">🔄</span>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover text-center">
+                    <div class="gradient-card w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-white text-2xl">🔄</span>
                     </div>
                     <h3 class="font-semibold text-gray-800 dark:text-white mb-2">4 Laws</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">Framework praktis untuk membangun kebiasaan baik</p>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover md:col-span-2 lg:col-span-1">
-                    <div class="gradient-bg w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <span class="text-white text-xl">🚀</span>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg card-hover text-center md:col-span-2 lg:col-span-1">
+                    <div class="gradient-bg w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-white text-2xl">🚀</span>
                     </div>
                     <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Identity</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">Fokus pada identitas, bukan hanya hasil</p>
@@ -540,12 +575,34 @@ Contoh:
             if (isDarkMode) {
                 document.documentElement.classList.add('dark');
                 document.getElementById('darkModeIcon').textContent = '☀️';
+                document.getElementById('drawerDarkModeIcon').textContent = '☀️';
             }
             showRandomQuote();
             loadHabits();
             loadNotes();
             updateProgress();
             setInterval(showRandomQuote, 30000);
+            
+            // Set initial active nav button
+            showSection('home');
+        }
+
+        // Navigation Drawer Toggle
+        function toggleDrawer() {
+            const drawer = document.getElementById('navigationDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            
+            if (drawer.classList.contains('-translate-x-full')) {
+                // Show drawer
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Hide drawer
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
         }
 
         // Dark Mode Toggle
@@ -554,6 +611,7 @@ Contoh:
             localStorage.setItem('darkMode', isDarkMode);
             document.documentElement.classList.toggle('dark');
             document.getElementById('darkModeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+            document.getElementById('drawerDarkModeIcon').textContent = isDarkMode ? '☀️' : '🌙';
         }
 
         // Random Quote
@@ -568,9 +626,15 @@ Contoh:
             document.getElementById(section).classList.remove('hidden');
             
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-600');
+                btn.classList.remove('bg-blue-100', 'dark:bg-blue-900/20', 'text-blue-600');
             });
-            event.target.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-600');
+            
+            // Find and highlight active nav button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.onclick && btn.onclick.toString().includes(`showSection('${section}')`)) {
+                    btn.classList.add('bg-blue-100', 'dark:bg-blue-900/20', 'text-blue-600');
+                }
+            });
             
             currentSection = section;
         }
@@ -599,13 +663,13 @@ Contoh:
                         <!-- Penjelasan Praktis -->
                         <div class="mb-6">
                             <h3 class="font-semibold text-gray-800 dark:text-white mb-3">📚 Penjelasan Praktis</h3>
-                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${habit.explanation}</p>
+                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-justify">${habit.explanation}</p>
                         </div>
 
                         <!-- Contoh Penerapan -->
                         <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border-l-4 border-green-500">
                             <h3 class="font-semibold text-green-800 dark:text-green-300 mb-2">💡 Contoh Penerapan</h3>
-                            <p class="text-gray-700 dark:text-gray-300">${habit.example}</p>
+                            <p class="text-gray-700 dark:text-gray-300 text-justify">${habit.example}</p>
                         </div>
 
                         <!-- Tips Implementasi -->
@@ -747,5 +811,5 @@ Contoh:
         // Initialize app when page loads
         init();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fe49ea565cfda6',t:'MTc1ODAwMzk0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fe55ac85e69cbd',t:'MTc1ODAwNDQzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
