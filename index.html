@@ -7,23 +7,117 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        
+        /* Base Typography with Fluid Scaling */
+        body { 
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+            line-height: 1.6;
+        }
+        
+        h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
+        h2 { font-size: clamp(1.5rem, 6vw, 2.25rem); }
+        h3 { font-size: clamp(1.125rem, 4vw, 1.5rem); }
+        
+        .text-lg { font-size: clamp(1rem, 3vw, 1.125rem); }
+        .text-xl { font-size: clamp(1.125rem, 4vw, 1.25rem); }
+        .text-2xl { font-size: clamp(1.25rem, 5vw, 1.5rem); }
+        .text-3xl { font-size: clamp(1.5rem, 6vw, 1.875rem); }
+        .text-4xl { font-size: clamp(1.875rem, 7vw, 2.25rem); }
+        .text-5xl { font-size: clamp(2.25rem, 8vw, 3rem); }
+        
+        /* Mobile-First Responsive Design */
         .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .progress-bar { transition: width 0.5s ease; }
         .quote-animation { animation: fadeInUp 1s ease-out; }
+        
+        /* Touch-Friendly Buttons */
+        .btn-touch {
+            min-height: 44px;
+            min-width: 44px;
+            padding: clamp(0.75rem, 3vw, 1rem) clamp(1rem, 4vw, 1.5rem);
+            font-size: clamp(0.875rem, 3vw, 1rem);
+            border-radius: clamp(0.5rem, 2vw, 0.75rem);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Mobile Navigation */
+        .nav-mobile {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .nav-mobile::-webkit-scrollbar { display: none; }
+        
+        /* Responsive Grid System */
+        .grid-responsive {
+            display: grid;
+            gap: clamp(1rem, 4vw, 1.5rem);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        .grid-responsive-sm {
+            display: grid;
+            gap: clamp(0.75rem, 3vw, 1rem);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        
+        /* Container Spacing */
+        .container-fluid {
+            padding-left: clamp(1rem, 5vw, 1.5rem);
+            padding-right: clamp(1rem, 5vw, 1.5rem);
+        }
+        
+        .section-spacing {
+            padding-top: clamp(2rem, 8vw, 3rem);
+            padding-bottom: clamp(2rem, 8vw, 3rem);
+        }
+        
+        /* Mobile Input Optimization */
+        .input-touch {
+            min-height: 48px;
+            font-size: 16px; /* Prevents zoom on iOS */
+            padding: clamp(0.75rem, 3vw, 1rem);
+            border-radius: clamp(0.5rem, 2vw, 0.75rem);
+        }
+        
+        /* Tablet Specific */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .tablet-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .tablet-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        /* Mobile Specific */
+        @media (max-width: 767px) {
+            .mobile-full { width: 100%; }
+            .mobile-stack { flex-direction: column; }
+            .mobile-center { text-align: center; }
+            .mobile-p-4 { padding: 1rem; }
+            .mobile-gap-4 { gap: 1rem; }
+        }
+        
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Better Touch Targets */
+        button, input, textarea, select {
+            touch-action: manipulation;
         }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Header -->
-    <header class="gradient-bg text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">📚 Atomic Habits</h1>
+    <header class="gradient-bg text-white section-spacing">
+        <div class="container mx-auto container-fluid text-center">
+            <h1 class="font-bold mb-4">📚 Atomic Habits</h1>
             <p class="text-xl mb-2">oleh James Clear</p>
             <p class="text-lg opacity-90">Ringkasan Cerdas, Mudah Dipahami, Siap Dipraktikkan</p>
             
@@ -36,37 +130,37 @@
 
     <!-- Navigation -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-center space-x-8 py-4">
-                <button onclick="showSection('home')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors hover:bg-blue-100 hover:text-blue-600">🏠 Beranda</button>
-                <button onclick="showSection('contents')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors hover:bg-blue-100 hover:text-blue-600">📋 Daftar Isi</button>
-                <button onclick="showSection('summary')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors hover:bg-blue-100 hover:text-blue-600">📖 Ringkasan</button>
-                <button onclick="showSection('action')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors hover:bg-blue-100 hover:text-blue-600">✅ Action Plan</button>
-                <button onclick="showSection('notes')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors hover:bg-blue-100 hover:text-blue-600">📝 Catatan</button>
+        <div class="container mx-auto container-fluid">
+            <div class="nav-mobile flex justify-start md:justify-center space-x-2 md:space-x-4 py-3 md:py-4">
+                <button onclick="showSection('home')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">🏠 <span class="hidden sm:inline">Beranda</span></button>
+                <button onclick="showSection('contents')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">📋 <span class="hidden sm:inline">Daftar Isi</span></button>
+                <button onclick="showSection('summary')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">📖 <span class="hidden sm:inline">Ringkasan</span></button>
+                <button onclick="showSection('action')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">✅ <span class="hidden sm:inline">Action Plan</span></button>
+                <button onclick="showSection('notes')" class="nav-btn btn-touch font-medium transition-colors hover:bg-blue-100 hover:text-blue-600 whitespace-nowrap">📝 <span class="hidden sm:inline">Catatan</span></button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-6 py-8">
+    <main class="container mx-auto container-fluid section-spacing">
         <!-- Home Section -->
         <section id="home" class="section">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">Selamat Datang di Ringkasan Atomic Habits</h2>
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                <h2 class="font-bold text-gray-800 mb-6">Selamat Datang di Ringkasan Atomic Habits</h2>
+                <div class="grid-responsive tablet-cols-3">
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover mobile-center">
                         <div class="text-4xl mb-4">🎯</div>
-                        <h3 class="text-xl font-semibold mb-3">Kebiasaan Kecil</h3>
+                        <h3 class="font-semibold mb-3">Kebiasaan Kecil</h3>
                         <p class="text-gray-600">Perubahan kecil yang konsisten menghasilkan hasil luar biasa</p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover mobile-center">
                         <div class="text-4xl mb-4">🔄</div>
-                        <h3 class="text-xl font-semibold mb-3">4 Hukum Perilaku</h3>
+                        <h3 class="font-semibold mb-3">4 Hukum Perilaku</h3>
                         <p class="text-gray-600">Framework praktis untuk membangun kebiasaan baik</p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover mobile-center">
                         <div class="text-4xl mb-4">🚀</div>
-                        <h3 class="text-xl font-semibold mb-3">Identitas Baru</h3>
+                        <h3 class="font-semibold mb-3">Identitas Baru</h3>
                         <p class="text-gray-600">Ubah identitas Anda, ubah hidup Anda</p>
                     </div>
                 </div>
@@ -75,30 +169,30 @@
 
         <!-- Contents Section -->
         <section id="contents" class="section hidden">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">📋 Daftar Isi</h2>
-            <div class="grid md:grid-cols-2 gap-4">
-                <div class="bg-white p-4 rounded-lg shadow-md card-hover cursor-pointer" onclick="showChapter(1)">
-                    <h3 class="font-semibold text-lg text-blue-600">Bab 1: Kekuatan Atomic Habits</h3>
+            <h2 class="font-bold text-gray-800 mb-8 text-center">📋 Daftar Isi</h2>
+            <div class="grid-responsive-sm tablet-cols-2">
+                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(1)">
+                    <h3 class="font-semibold text-blue-600">Bab 1: Kekuatan Atomic Habits</h3>
                     <p class="text-gray-600 text-sm mt-2">Mengapa perubahan kecil menghasilkan dampak besar</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md card-hover cursor-pointer" onclick="showChapter(2)">
-                    <h3 class="font-semibold text-lg text-blue-600">Bab 2: 4 Hukum Perubahan Perilaku</h3>
+                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(2)">
+                    <h3 class="font-semibold text-blue-600">Bab 2: 4 Hukum Perubahan Perilaku</h3>
                     <p class="text-gray-600 text-sm mt-2">Framework untuk membangun kebiasaan yang bertahan</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md card-hover cursor-pointer" onclick="showChapter(3)">
-                    <h3 class="font-semibold text-lg text-blue-600">Bab 3: Kebiasaan Berbasis Identitas</h3>
+                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(3)">
+                    <h3 class="font-semibold text-blue-600">Bab 3: Kebiasaan Berbasis Identitas</h3>
                     <p class="text-gray-600 text-sm mt-2">Fokus pada siapa Anda ingin menjadi</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md card-hover cursor-pointer" onclick="showChapter(4)">
-                    <h3 class="font-semibold text-lg text-blue-600">Bab 4: Lingkungan dan Kebiasaan</h3>
+                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(4)">
+                    <h3 class="font-semibold text-blue-600">Bab 4: Lingkungan dan Kebiasaan</h3>
                     <p class="text-gray-600 text-sm mt-2">Desain lingkungan untuk kesuksesan</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md card-hover cursor-pointer" onclick="showChapter(5)">
-                    <h3 class="font-semibold text-lg text-blue-600">Bab 5: Habit Stacking</h3>
+                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(5)">
+                    <h3 class="font-semibold text-blue-600">Bab 5: Habit Stacking</h3>
                     <p class="text-gray-600 text-sm mt-2">Menumpuk kebiasaan untuk efektivitas maksimal</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md card-hover cursor-pointer" onclick="showChapter(6)">
-                    <h3 class="font-semibold text-lg text-blue-600">Bab 6: Kesimpulan & Implementasi</h3>
+                <div class="bg-white mobile-p-4 p-6 rounded-lg shadow-md card-hover cursor-pointer btn-touch" onclick="showChapter(6)">
+                    <h3 class="font-semibold text-blue-600">Bab 6: Kesimpulan & Implementasi</h3>
                     <p class="text-gray-600 text-sm mt-2">Langkah praktis memulai perubahan hari ini</p>
                 </div>
             </div>
@@ -110,7 +204,7 @@
                 <div class="text-center py-12">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4">Pilih Bab dari Daftar Isi</h2>
                     <p class="text-gray-600">Klik pada salah satu bab di menu Daftar Isi untuk mulai membaca ringkasan</p>
-                    <button onclick="showSection('contents')" class="mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <button onclick="showSection('contents')" class="mt-4 bg-blue-600 text-white btn-touch hover:bg-blue-700 transition-colors">
                         📋 Lihat Daftar Isi
                     </button>
                 </div>
@@ -119,24 +213,24 @@
 
         <!-- Action Plan Section -->
         <section id="action" class="section hidden">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">✅ Action Plan Saya</h2>
-            <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="font-bold text-gray-800 mb-8 text-center">✅ Action Plan Saya</h2>
+            <div class="bg-white rounded-xl shadow-lg mobile-p-4 p-6">
                 <div class="mb-6">
-                    <h3 class="text-xl font-semibold mb-4">Kebiasaan yang Ingin Saya Bangun:</h3>
+                    <h3 class="font-semibold mb-4">Kebiasaan yang Ingin Saya Bangun:</h3>
                     <div id="habitsList" class="space-y-3">
                         <!-- Habits will be added here -->
                     </div>
-                    <div class="flex gap-3 mt-4">
-                        <input type="text" id="newHabit" placeholder="Contoh: Olahraga 15 menit setiap pagi" class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <button onclick="addHabit()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+                    <div class="flex mobile-stack mobile-gap-4 gap-3 mt-4">
+                        <input type="text" id="newHabit" placeholder="Contoh: Olahraga 15 menit setiap pagi" class="flex-1 mobile-full input-touch border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <button onclick="addHabit()" class="bg-green-600 text-white btn-touch hover:bg-green-700 transition-colors mobile-full">
                             ➕ Tambah
                         </button>
                     </div>
                 </div>
                 
                 <div class="border-t pt-6">
-                    <h3 class="text-xl font-semibold mb-4">Progress Tracker:</h3>
-                    <div class="bg-gray-100 rounded-lg p-4">
+                    <h3 class="font-semibold mb-4">Progress Tracker:</h3>
+                    <div class="bg-gray-100 rounded-lg mobile-p-4 p-4">
                         <div class="flex justify-between items-center mb-2">
                             <span class="font-medium">Kebiasaan Tercapai Hari Ini</span>
                             <span id="progressText" class="text-blue-600 font-semibold">0/0</span>
@@ -151,18 +245,18 @@
 
         <!-- Notes Section -->
         <section id="notes" class="section hidden">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">📝 Catatan Pribadi</h2>
-            <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="font-bold text-gray-800 mb-8 text-center">📝 Catatan Pribadi</h2>
+            <div class="bg-white rounded-xl shadow-lg mobile-p-4 p-6">
                 <div class="mb-6">
-                    <label class="block text-lg font-semibold mb-3">Refleksi & Insight Saya:</label>
-                    <textarea id="personalNotes" rows="8" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Tulis refleksi Anda tentang konsep-konsep dalam Atomic Habits...
+                    <label class="block font-semibold mb-3">Refleksi & Insight Saya:</label>
+                    <textarea id="personalNotes" rows="8" class="w-full input-touch border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Tulis refleksi Anda tentang konsep-konsep dalam Atomic Habits...
 
 Contoh:
 - Apa kebiasaan buruk yang ingin saya ubah?
 - Bagaimana saya bisa menerapkan 4 hukum perilaku?
 - Identitas baru apa yang ingin saya bangun?"></textarea>
                 </div>
-                <button onclick="saveNotes()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                <button onclick="saveNotes()" class="bg-blue-600 text-white btn-touch hover:bg-blue-700 transition-colors mobile-full">
                     💾 Simpan Catatan
                 </button>
                 <div id="saveMessage" class="mt-3 text-green-600 font-medium hidden">✅ Catatan berhasil disimpan!</div>
@@ -304,30 +398,30 @@ Contoh:
 
             const content = `
                 <div class="max-w-4xl mx-auto">
-                    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-6">📖 ${chapter.title}</h2>
+                    <div class="bg-white rounded-xl shadow-lg mobile-p-4 p-8 mb-8">
+                        <h2 class="font-bold text-gray-800 mb-6">📖 ${chapter.title}</h2>
                         
                         <!-- Inti Konsep -->
-                        <div class="mb-8 p-6 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-                            <h3 class="text-xl font-semibold text-blue-800 mb-3">🎯 Inti Konsep</h3>
+                        <div class="mb-8 mobile-p-4 p-6 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                            <h3 class="font-semibold text-blue-800 mb-3">🎯 Inti Konsep</h3>
                             <p class="text-gray-700 leading-relaxed">${chapter.concept}</p>
                         </div>
 
                         <!-- Penjelasan Detail -->
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-4">📚 Penjelasan Detail</h3>
+                            <h3 class="font-semibold text-gray-800 mb-4">📚 Penjelasan Detail</h3>
                             <p class="text-gray-700 leading-relaxed">${chapter.detail}</p>
                         </div>
 
                         <!-- Contoh -->
-                        <div class="mb-8 p-6 bg-green-50 rounded-lg border-l-4 border-green-500">
-                            <h3 class="text-xl font-semibold text-green-800 mb-3">💡 Contoh Praktis</h3>
+                        <div class="mb-8 mobile-p-4 p-6 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <h3 class="font-semibold text-green-800 mb-3">💡 Contoh Praktis</h3>
                             <p class="text-gray-700 leading-relaxed">${chapter.example}</p>
                         </div>
 
                         <!-- Tips Praktis -->
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-4">✅ Tips Praktis</h3>
+                            <h3 class="font-semibold text-gray-800 mb-4">✅ Tips Praktis</h3>
                             <ul class="space-y-3">
                                 ${chapter.tips.map(tip => `
                                     <li class="flex items-start">
@@ -339,23 +433,23 @@ Contoh:
                         </div>
 
                         <!-- Insight -->
-                        <div class="p-6 bg-purple-50 rounded-lg border-l-4 border-purple-500">
-                            <h3 class="text-xl font-semibold text-purple-800 mb-3">💭 Insight dari James Clear</h3>
+                        <div class="mobile-p-4 p-6 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <h3 class="font-semibold text-purple-800 mb-3">💭 Insight dari James Clear</h3>
                             <p class="text-gray-700 italic leading-relaxed">${chapter.insight}</p>
                         </div>
                     </div>
 
                     <!-- Navigation -->
-                    <div class="flex justify-between items-center">
-                        <button onclick="showSection('contents')" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    <div class="flex mobile-stack mobile-gap-4 justify-between items-center">
+                        <button onclick="showSection('contents')" class="bg-gray-600 text-white btn-touch hover:bg-gray-700 transition-colors mobile-full">
                             ← Kembali ke Daftar Isi
                         </button>
                         ${chapterNum < 6 ? `
-                            <button onclick="showChapter(${chapterNum + 1})" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            <button onclick="showChapter(${chapterNum + 1})" class="bg-blue-600 text-white btn-touch hover:bg-blue-700 transition-colors mobile-full">
                                 Bab Selanjutnya →
                             </button>
                         ` : `
-                            <button onclick="showSection('action')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+                            <button onclick="showSection('action')" class="bg-green-600 text-white btn-touch hover:bg-green-700 transition-colors mobile-full">
                                 Mulai Action Plan →
                             </button>
                         `}
@@ -412,14 +506,14 @@ Contoh:
             }
 
             container.innerHTML = habits.map(habit => `
-                <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg ${habit.completed ? 'bg-green-50 border-green-200' : 'bg-white'}">
+                <div class="flex items-center justify-between mobile-p-4 p-4 border border-gray-200 rounded-lg ${habit.completed ? 'bg-green-50 border-green-200' : 'bg-white'}">
                     <div class="flex items-center">
                         <input type="checkbox" ${habit.completed ? 'checked' : ''} 
                                onchange="toggleHabit(${habit.id})"
                                class="w-5 h-5 text-green-600 rounded focus:ring-green-500">
                         <span class="ml-3 ${habit.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${habit.text}</span>
                     </div>
-                    <button onclick="deleteHabit(${habit.id})" class="text-red-500 hover:text-red-700 transition-colors">
+                    <button onclick="deleteHabit(${habit.id})" class="text-red-500 hover:text-red-700 transition-colors btn-touch">
                         🗑️
                     </button>
                 </div>
@@ -465,5 +559,5 @@ Contoh:
         // Refresh quote every 30 seconds
         setInterval(showRandomQuote, 30000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fcf8efc4cc9ca1',t:'MTc1Nzk5MDE0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fd71e826395f9d',t:'MTc1Nzk5NTEwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
